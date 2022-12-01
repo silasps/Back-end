@@ -1,11 +1,11 @@
 package com.example.caderno.dataProvider.repository;
 
-import com.example.caderno.dataProvider.entity.AnotacaoEntity;
+import com.example.caderno.dataProvider.entity.TagEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NotaRepository extends JpaRepository<AnotacaoEntity, Long> {
+public interface TagRepository extends JpaRepository<TagEntity, Long> {
 
 
 

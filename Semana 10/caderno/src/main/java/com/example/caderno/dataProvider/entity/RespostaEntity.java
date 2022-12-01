@@ -1,29 +1,26 @@
 package com.example.caderno.dataProvider.entity;
 
 import jakarta.persistence.*;
-import lombok.Generated;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "nota")
+@Table(name = "resposta")
 @Getter
 @Setter
-public class NotaEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+public class RespostaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column
-    private String titulo;
+    private String texto;
 
-    @Column
-    private String nota;
+    private Long id_pergunta;
 
-    @Column(name = "data_criacao")
-    private LocalDateTime dataCriacao;
 }

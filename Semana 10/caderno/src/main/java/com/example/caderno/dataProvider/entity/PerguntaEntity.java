@@ -28,4 +28,15 @@ public class PerguntasEntity {
     @Column
     private Long id_assunto;
 
+    @ManyToOne
+    @JoinColumn
+    public AssuntoEntity assuntoEntity;
+
+    public PerguntasEntity(String titulo, String texto, Long id_assunto, AssuntoEntity assuntoEntity){
+        this.titulo = titulo;
+        this.texto = texto;
+        this.id_assunto = id_assunto;
+        this.assuntoEntity = assuntoEntity;
+    }
+
 }

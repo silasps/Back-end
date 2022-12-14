@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+
+    <!--Adicionamos as configurações padrão do spring para log-->
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <!--Propriedade para pegar o valor do token no application.propirts-->
+    <springProperty name="logglyToken" source="logging.loggly.token" />
+
+    <!--Adicionamos o Appender do Loggly-->
+    <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
+        <endpointUrl>https://logs-01.loggly.com/inputs/${logglyToken}/tag/logback</endpointUrl>
+        <pattern>%d{"ISO8601", UTC} %p %t %c %M - %m%n</pattern>
+    </appender>
+
+
+    <!--Configuramos o log de forma assincrona-->
+    <appender name="logglyAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="loggly" />
+    </appender>
+
+    <!--Qualquer log do nível de info para cima, vamos registrar as mensagens no appender do loggly-->
+    <root level="info">
+        <appender-ref ref="logglyAsync" />
+    </root>
+
+</configuration>

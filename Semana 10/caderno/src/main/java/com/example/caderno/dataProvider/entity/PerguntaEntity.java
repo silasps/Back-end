@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PerguntasEntity {
+public class PerguntaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,17 +25,13 @@ public class PerguntasEntity {
     @Column
     private String texto;
 
-    @Column
-    private Long id_assunto;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_assunto")
+    private AssuntoEntity assuntoEntity;
 
-    @ManyToOne
-    @JoinColumn
-    public AssuntoEntity assuntoEntity;
-
-    public PerguntasEntity(String titulo, String texto, Long id_assunto, AssuntoEntity assuntoEntity){
+    public PerguntaEntity(String titulo, String texto, AssuntoEntity assuntoEntity){
         this.titulo = titulo;
         this.texto = texto;
-        this.id_assunto = id_assunto;
         this.assuntoEntity = assuntoEntity;
     }
 

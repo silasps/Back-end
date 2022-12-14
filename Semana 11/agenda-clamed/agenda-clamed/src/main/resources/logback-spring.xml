@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--Adicionamos as configurações padrão do spring para log-->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!--Propriedade para pegar o valor do token no application.properties-->
+    <springProperty name="logglyToken" source="logging.loggly.token"/>
+
+    <!--Propriedade para pegar path do diretório para salvar os logs-->
+    <springProperty name="LOGS" source="logging.dir.path"/>
+
+
+    <!--Adicionamos o Appender do Loggly-->
+    <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
+        <endpointUrl>https://logs-01.loggly.com/inputs/${logglyToken}/tag/logback</endpointUrl>
+        <pattern>%d{"ISO8601", UTC} %p %t %c %M - %m%n</pattern>
+    </appender>
+
+    <!-- Adicionamos o RollingFileAppender para gerar logs em arquivo -->
+    <appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/spring-boot-logger.log</file>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+
+        <!-- Configuramos a política de geração dos arquivos de log -->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/spring-boot-logger-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!--Configuramos o log de forma assincrona-->
+    <appender name="logglyAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="loggly"/>
+    </appender>
+
+    <!-- Qualquer log do nível de info para cima, vamos registrar as mensagens
+     no appender do Loggly e RollingFile -->
+    <root level="info">
+        <appender-ref ref="logglyAsync"/>
+        <appender-ref ref="RollingFile" />
+    </root>
+
+</configuration>

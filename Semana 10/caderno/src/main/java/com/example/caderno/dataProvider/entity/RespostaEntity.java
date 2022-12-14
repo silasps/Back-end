@@ -21,6 +21,13 @@ public class RespostaEntity {
 
     private String texto;
 
-    private Long id_pergunta;
+    @ManyToOne
+    @JoinColumn(name = "id_pergunta")
+    private PerguntaEntity perguntaEntity;
+
+    public RespostaEntity(String texto, Long id_pergunta, PerguntaEntity perguntaEntity){
+        this.texto = texto;
+        this.perguntaEntity = perguntaEntity;
+    }
 
 }

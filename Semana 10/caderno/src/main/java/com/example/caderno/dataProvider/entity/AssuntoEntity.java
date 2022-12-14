@@ -21,6 +21,8 @@ public class AssuntoEntity {
 
     private String nome;
 
-
+    public AssuntoEntity(String nome){
+        this.nome = nome;
+    }
 
 }

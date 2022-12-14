@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssuntoRequest {
+public class PerguntaRequest {
 
-    String nome;
+    String titulo;
+    String texto;
+
 
 }
